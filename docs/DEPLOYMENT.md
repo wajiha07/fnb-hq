@@ -17,12 +17,14 @@ docker compose up --build -d
 
 Postgres is exposed on host port **5433** (not 5432) to avoid clashing with a local Postgres install.
 
-## Option B — Render (public URL for reviewers)
+## Option B — Render (public URL for reviewers — **required for stable hosting**)
 
-1. Fork or use [github.com/wajiha07/fnb-hq](https://github.com/wajiha07/fnb-hq).
-2. In [Render Dashboard](https://dashboard.render.com/) → **New** → **Blueprint**, connect the repo and apply `render.yaml`.
-3. Wait for `fnb-api`, `fnb-web`, and `fnb-db` to become healthy (API runs migrate + seed on container start).
-4. Open the **fnb-web** service URL (HTTPS). The UI proxies `/api` to the API service on the private network.
+1. Use [github.com/wajiha07/fnb-hq](https://github.com/wajiha07/fnb-hq).
+2. [Deploy to Render](https://render.com/deploy?repo=https://github.com/wajiha07/fnb-hq) or Dashboard → **New** → **Blueprint** → apply `render.yaml`.
+3. Wait for **`fnb-hq`** (web) and **`fnb-db`** to become healthy (migrate + seed run on container start).
+4. Open the **`fnb-hq`** HTTPS URL — UI and `/api` on **one** public endpoint (root `Dockerfile`).
+
+See also [docs/LIVE_INSTANCE.md](LIVE_INSTANCE.md) for optional trycloudflare demo script.
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/wajiha07/fnb-hq)
 

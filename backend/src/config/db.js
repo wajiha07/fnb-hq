@@ -3,6 +3,11 @@ const config = require('./env');
 
 const pool = new Pool({
   connectionString: config.databaseUrl,
+  ssl:
+    /sslmode=require/i.test(config.databaseUrl) ||
+    /\.(render|neon|supabase|rds)\./i.test(config.databaseUrl)
+      ? { rejectUnauthorized: false }
+      : undefined,
 });
 
 pool.on('error', (err) => {

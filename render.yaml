@@ -1,5 +1,4 @@
-# Render Blueprint — F&B HQ (API + Web + Postgres)
-# After connecting this repo in Render, or use "Deploy to Render" from README.
+# Render Blueprint — one public URL (UI + /api) + managed Postgres
 
 databases:
   - name: fnb-db
@@ -9,11 +8,11 @@ databases:
 
 services:
   - type: web
-    name: fnb-api
+    name: fnb-hq
     runtime: docker
     plan: free
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
@@ -24,16 +23,3 @@ services:
         fromDatabase:
           name: fnb-db
           property: connectionString
-
-  - type: web
-    name: fnb-web
-    runtime: docker
-    plan: free
-    dockerfilePath: ./frontend/Dockerfile
-    dockerContext: ./frontend
-    envVars:
-      - key: API_UPSTREAM
-        fromService:
-          type: web
-          name: fnb-api
-          property: hostport

@@ -22,17 +22,34 @@ services:
       NODE_ENV: production
       DATABASE_URL: postgresql://fnb:fnb_secret@db:5432/fnb_hq
     ports:
-      - "4000:4000"
+      - "4001:4000"
     depends_on:
       db:
         condition: service_healthy
 
   web:
     build: ./frontend
+    environment:
+      API_UPSTREAM: api:4000
     ports:
       - "8080:80"
     depends_on:
       - api
+
+  # Single-port stack (matches cloud all-in-one image) — http://localhost:4002
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      PORT: 4000
+      NODE_ENV: production
+      DATABASE_URL: postgresql://fnb:fnb_secret@db:5432/fnb_hq
+    ports:
+      - "4002:4000"
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   pgdata:

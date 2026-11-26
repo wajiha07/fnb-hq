@@ -6,13 +6,13 @@ Central HQ system for managing master menus, outlet assignments, per-outlet inve
 
 ## Live access (for reviewers)
 
-| How | URL / action |
-|-----|----------------|
-| **Cloud (Render)** | Deploy from GitHub via [`render.yaml`](render.yaml) — see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) and [Deploy to Render](https://render.com/deploy?repo=https://github.com/wajiha07/fnb-hq) |
-| **Docker on your machine** | `docker compose up --build` → UI at **http://localhost:8080** |
+| How | URL |
+|-----|-----|
+| **Public demo (HTTPS)** | **https://accepts-arts-cute-expected.trycloudflare.com** — UI + API while Docker & tunnel are running ([details](docs/LIVE_INSTANCE.md)) |
+| **Stable cloud** | [Deploy to Render](https://render.com/deploy?repo=https://github.com/wajiha07/fnb-hq) → single **`fnb-hq`** HTTPS URL ([docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)) |
+| **Docker locally** | **http://localhost:8080** (`docker compose up --build -d`) |
+| **All-in-one (matches Render)** | **http://localhost:4002** |
 | **Local dev** | UI **http://localhost:5173**, API **http://localhost:4000/api/health** |
-
-After Render deploy, use the **fnb-web** service HTTPS URL as the end-user entry point.
 
 ## Tech stack
 
@@ -47,8 +47,9 @@ cd fnb-hq
 docker compose up --build
 ```
 
-- **Web UI:** http://localhost:8080
-- **API:** http://localhost:4000/api/health
+- **Web UI (nginx):** http://localhost:8080
+- **All-in-one app:** http://localhost:4002 (UI + `/api`, same image as Render)
+- **API only:** http://localhost:4001/api/health
 - **Postgres (host):** `localhost:5433` (user `fnb`, db `fnb_hq`)
 
 Seed data: company **Demo F&B Group**, 3 outlets, sample menu and inventory.
@@ -166,8 +167,10 @@ Full analysis (database, reporting, infrastructure, evolution): [`docs/ARCHITECT
 │   └── DEPLOYMENT.md
 ├── scripts/
 │   └── requirements-check.sh
+├── Dockerfile               # All-in-one image for Render / compose `app`
 ├── docker-compose.yml
 ├── render.yaml
+├── .github/workflows/ci.yml
 ├── LICENSE
 └── README.md
 ```
@@ -176,7 +179,7 @@ Full analysis (database, reporting, infrastructure, evolution): [`docs/ARCHITECT
 
 | Deliverable | Status | Where |
 |-------------|--------|--------|
-| Deployed instance for end users | ✅ | [Deployment guide](docs/DEPLOYMENT.md), Docker `:8080`, or Render `fnb-web` URL |
+| Deployed instance for end users | ✅ | [Public HTTPS demo](https://accepts-arts-cute-expected.trycloudflare.com), Docker `:8080`, Render `fnb-hq` ([LIVE_INSTANCE.md](docs/LIVE_INSTANCE.md)) |
 | GitHub repository | ✅ | [wajiha07/fnb-hq](https://github.com/wajiha07/fnb-hq) |
 | Folder structure | ✅ | See tree above |
 | Clean commits | ✅ | Logical history on `main` |
