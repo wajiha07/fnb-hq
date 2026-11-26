@@ -170,7 +170,6 @@ Full analysis (database, reporting, infrastructure, evolution): [`docs/ARCHITECT
 ├── Dockerfile               # All-in-one image for Render / compose `app`
 ├── docker-compose.yml
 ├── render.yaml
-├── .github/workflows/ci.yml
 ├── LICENSE
 └── README.md
 ```
